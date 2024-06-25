@@ -253,7 +253,8 @@ datagen() {
 	fi
 	config_name=$(get_config_file $workload $accelerator_type)
 	prefixed_array=$(add_prefix_params ${params[@]})
-	mpirun -np $parallel python3 dlio_benchmark/dlio_benchmark/main.py --config-path=$CONFIG_PATH workload=$config_name ++workload.workflow.generate_data=True ++workload.workflow.train=False ${prefixed_array[@]} ${EXTRA_PARAMS[@]}
+	set -x
+	mpirun -np $parallel --launcher=fork python3 dlio_benchmark/dlio_benchmark/main.py --config-path=$CONFIG_PATH workload=$config_name ++workload.workflow.generate_data=True ++workload.workflow.train=False ${prefixed_array[@]} ${EXTRA_PARAMS[@]}
 }
 
 run() {
@@ -277,7 +278,8 @@ run() {
 	fi
 	config_name=$(get_config_file $workload $accelerator_type)
 	prefixed_array=$(add_prefix_params ${params[@]})
-	mpirun -hosts $hosts -np $num_accelerators python3 dlio_benchmark/dlio_benchmark/main.py --config-path=$CONFIG_PATH workload=$config_name ++workload.workflow.generate_data=False ++workload.workflow.train=True ${prefixed_array[@]} ${EXTRA_PARAMS[@]}
+	set -x
+	mpirun -hosts $hosts -np $num_accelerators --launcher=fork python3 dlio_benchmark/dlio_benchmark/main.py --config-path=$CONFIG_PATH workload=$config_name ++workload.workflow.generate_data=False ++workload.workflow.train=True ${prefixed_array[@]} ${EXTRA_PARAMS[@]}
 	#python report.py --result-dir $results_dir --config-path=$CONFIG_PATH
 }
 
