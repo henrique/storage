@@ -85,7 +85,6 @@ run_usage() {
 	echo -e "Run benchmark on the generated dataset based on the specified options.\n"
 	echo -e "\nOptions:"
 	echo -e "  -h, --help\t\t\tPrint this message"
-	echo -e "  -s, --hosts\t\t\tComma separated IP addresses of the participating hosts(without space). eg: '192.168.1.1,192.168.2.2'"
 	echo -e "  -c, --category\t\tBenchmark category to be submitted. Possible options are 'closed'(default)"
 	echo -e "  -w, --workload\t\tWorkload to be run. Possible options are 'unet3d', 'cosmoflow' 'resnet50' "
 	echo -e "  -g, --accelerator-type\tSimulated accelerator type used for the benchmark. Possible options are 'a100' 'h100' "
@@ -258,7 +257,6 @@ datagen() {
 }
 
 run() {
-	local hosts=$1;shift
 	local category=$1;shift
 	local workload=$1;shift
 	local accelerator_type=$1;shift
