@@ -342,7 +342,6 @@ main() {
 		while [ $# -gt 0 ]; do
 			case "$1" in
 				-h | --help ) run_usage; exit 0 ;;
-				-s | --hosts ) hosts="$2"; shift 2 ;;
 				-c | --category ) category="$2"; shift 2 ;;
 				-w | --workload ) workload="$2"; shift 2 ;;
 				-g | --accelerator-type ) accelerator_type="$2"; shift 2 ;;
@@ -353,12 +352,11 @@ main() {
 			esac
 		done
 		category=${category:-$DEFAULT_CATEGORY}
-		validate_non_empty "hosts" $hosts
 		validate_non_empty "workload" $workload
 		validate_non_empty "accelerator-type" $accelerator_type
 		validate_non_empty "num-accelerators" $num_accelerators
 		validate_non_empty "results-dir" $results_dir
-		run $hosts $category $workload $accelerator_type $num_accelerators "$results_dir" "${params[@]}"
+		run $category $workload $accelerator_type $num_accelerators "$results_dir" "${params[@]}"
 	elif [ "$mode" = "configview" ]
 	then
 		params=()
@@ -391,7 +389,6 @@ main() {
 			echo "Submission package created: $submission_pkg"
 		else
 			echo "Error: File 'summary.json' not found in the result directory '$results_dir'."
-			echo "The report must be generated from the first host in the hosts argument"
 		fi
 	else
 		usage; exit 1
